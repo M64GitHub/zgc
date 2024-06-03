@@ -14,6 +14,7 @@ pub fn build(b: *std.Build) void {
     exe.addIncludePath(.{ .path = "src/ReSIDL" });
     exe.addIncludePath(.{ .path = "/usr/include" });
     exe.linkLibC();
+    exe.linkSystemLibrary("SDL2");
 
     b.installArtifact(exe);
 }

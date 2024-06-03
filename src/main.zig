@@ -10,8 +10,9 @@ pub fn main() !void {
 
     try stdout.print("Badda the BAM!\n", .{});
 
-    const p = SIDP.play_the_dump(0, 0);
-    try stdout.print("Badda the BAM {d}!\n", .{p});
+    SIDP.play_the_dump();
+
+    // try stdout.print("Badda the BAM {d}!\n", .{p});
 
     try bw.flush(); // don't forget to flush!
 }

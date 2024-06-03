@@ -1,10 +1,10 @@
-#include "resid-dmpplayer.h"
-#include "resid-visualizer.h"
-#include "resid.h"
-#include "sdl-audio.h"
-#include "sidekick-logo.h"
 #include <stdio.h>
 
+#include "sdl-audio.h"
+
+#include "resid.h"
+
+#include "sidekick-logo.h"
 #include "music-cybernoidII.h"
 #include "music-turrican.h"
 
@@ -14,19 +14,22 @@ SDL_AudioSpec SDL_Audio_Spec;
 ReSID R;
 ReSIDPbData D;
 
-ReSIDDmpPlayer DP(&R, &D);
-ReSIDVisualizer RV(&R, &D);
+// ReSIDVisualizer RV(&R, &D);
 
-void init() { sdl_audio_init(&SDL_Audio_DevID, &SDL_Audio_Spec, &D); }
+void init_me(ReSID *r) {
+  sdl_audio_init(&SDL_Audio_DevID, &SDL_Audio_Spec, &D);
+  ReSID_init(r);
+}
 
-int main(int argc, char **argv) {
+int play_the_dump(int argc, char **argv) {
   char *x = 0;
   SDL_Event event;
   printf("[MAIN ] sidekick!\n");
-  init();
+
+  init_me(&R); // initializes ReSID
 
   // -- load sid dmp
-  DP.setDmp(Cybernoid_II_dmp, Cybernoid_II_dmp_len);
+  // DP.setDmp(Cybernoid_II_dmp, Cybernoid_II_dmp_len);
   // DP.setDmp(turrican_dmp, turrican_dmp_len);
 
   // print logo
@@ -40,16 +43,17 @@ int main(int argc, char **argv) {
   printf("\x1b[0m"); // reset all attributes
 
   // -- play sid dmp
-  DP.play();
+  // DP.play();
 
   int i = 0;
   printf("\x1b[1A"); // 1 lines up
-  while (!DP.update()) {
+  // while (!DP.update()) {
+  while (1) {
     SDL_Delay(5); // time to do stuff
 
     // -- do visual stuff
     if (!(i++ % 4)) {
-      RV.visualize();
+      //  RV.visualize();
     }
 
     // -- ctrl-c handler
